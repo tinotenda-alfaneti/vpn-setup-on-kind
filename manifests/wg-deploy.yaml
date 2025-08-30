@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wg-easy
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: wg-easy
+  template:
+    metadata:
+      labels:
+        app: wg-easy
+    spec:
+      containers:
+      - name: wg-easy
+        image: weejewel/wg-easy:latest
+        ports:
+        - containerPort: 51820
+          protocol: UDP
+        - containerPort: 51821
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: wg-config
+        - secretRef:
+            name: wg-easy-secrets
+        securityContext:
+          privileged: true
+          capabilities:
+            add: ["NET_ADMIN"]
+        volumeMounts:
+        - name: data
+          mountPath: /etc/wireguard
+        - name: tun
+          mountPath: /dev/net/tun
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256M
+
+      volumes:
+      - name: data
+        hostPath:
+          path: /var/lib/wg-easy
+          type: DirectoryOrCreate
+      - name: tun
+        hostPath:
+          path: /dev/net/tun
+          type: CharDevice

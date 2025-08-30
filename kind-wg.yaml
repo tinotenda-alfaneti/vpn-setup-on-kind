@@ -1,0 +1,14 @@
+# Maps host UDP 51820 -> node UDP 30000 (WireGuard)
+# Maps host TCP 51821 -> node TCP 31821 (wg-easy UI)
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: vpn
+nodes:
+- role: control-plane
+  extraPortMappings:
+    - containerPort: 30000
+      hostPort: 51820
+      protocol: UDP
+    - containerPort: 31821
+      hostPort: 51821
+      protocol: TCP
