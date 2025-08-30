@@ -1,0 +1,32 @@
+# Ignore PowerShell history files
+*.pshistory
+
+# Ignore PowerShell Data files
+*.psd1
+*.psm1
+
+# Ignore Env and Secret Files
+*.env
+*.secret
+
+# Ignore build and package directories
+bin/
+obj/
+
+# Ignore log files
+*.log
+
+# VS Code settings
+.vscode/
+.history/
+
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Mac specific files
+.DS_Store
+
+# Ignore test output
+TestResults/
